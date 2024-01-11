@@ -6,12 +6,12 @@
 using namespace std;
 
 class TaskList{
-    map<int, Task> *tasks = new map<int, Task>;
+    map<int, Task*> tasks;
     int lastId = 0;
 
 public:
     void addTask(string text);
     void removeTask(int id);
     Task* getTask(int id);
-    map<int, Task>* getTasks();
+    map<int, Task*> getTasks();
 };

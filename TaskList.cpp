@@ -8,19 +8,14 @@
 using namespace std;
 
 void TaskList::addTask(string text){
-    tasks->insert({++lastId, Task(text)});
+    tasks[++lastId] = new Task(text);
 }
 
 Task* TaskList::getTask(int id){
-    try {
-        Task* t = &tasks->at(id);
-        return t;
-    } catch (out_of_range) {
-        cout << "Podany adres nie istnieje" << endl;
-        return nullptr;
-    }
+    Task* t = tasks.at(id);
+    return t;
 }
 
-map<int, Task>* TaskList::getTasks(){
+map<int, Task*> TaskList::getTasks(){
     return tasks;
 }

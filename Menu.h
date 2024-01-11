@@ -6,13 +6,20 @@ class Menu{
     TaskList taskList; 
 public:
     Menu();
-    void print();
+    void menu();
+    void menuTasks();
 
-    enum Option: unsigned int {
+    enum Option {
         Display = 1,
         Add,
-        Remove,
-        Exit
+        Exit = 0
+    };
+
+    enum OptionTask {
+        Toggle = 1,
+        Edit,
+        Remove, 
+        Back
     };
 
 };

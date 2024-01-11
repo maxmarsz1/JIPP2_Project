@@ -16,50 +16,79 @@ Menu::Menu(){
     string taskText;
 
     while(1){
-        in = 0;
-        Menu::print();
+        Menu::menu();
+        
+    }
+}
+
+
+void Menu::menu(){
+    while(1){
+        cout<<"1.Wypisz todo" << endl;
+        cout<<"2.Dodaj todo" << endl;
+        cout<<"0.Zakończ" << endl;
         cout << ": ";
         if (cin >> in){
             switch(in){
                 case Menu::Display:
-                cout << "--------------------------" << endl;
-                cout << "Tasks:" << endl;
-                for(auto&[key, value]: *taskList.getTasks()){
-                    cout << key << "." << value.getText() << " | zrobiony: "<< (value.isDone() ? "tak" : "nie")<< endl;
+                while(1){
+                    cout << "--------------------------" << endl;
+                    cout << "Tasks:" << endl;
+                    for(auto&[key, value]: taskList.getTasks()){
+                        cout << key << "." << value->getText() << " | zrobiony: "<< (value->isDone() ? "tak" : "nie")<< endl;
+                    }
+                    cout << "--------------------------" << endl;
+                    
                 }
-                cout << "--------------------------" << endl;
                 break;;
 
                 case Menu::Add:
                 cout << "Nazwa todo: ";
                 getline(cin>>ws, taskText);
-                // if(!cin){
-                //     cin.clear();
-                // }
                 taskList.addTask(taskText);
                 break;;
 
-                case Menu::Remove:
-
-                break;;
                 case Menu::Exit:
                 exit(0);
 
                 default:
                 cout<<"Nieprawidłowy wybór"<< endl;
             }
-        } else {
-            // cin.clear();
-            // cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
-        
     }
 }
 
-void Menu::print(){
-    cout<<"1.Wypisz todo" << endl;
-    cout<<"2.Dodaj todo" << endl;
-    cout<<"3.Usun todo" << endl;
-    cout<<"4.Zakończ" << endl;
-}
+void Menu::menuTasks(){
+    while(1){
+        cout<<"1.Przelacz todo" << endl;
+        cout<<"2.Edytuj todo" << endl;
+        cout<<"3.Usun todo" << endl;
+        cout<<"4.Powrot" << endl;
 
+        string buff;
+        int selectionId;
+        getline(cin>>ws ,buff);
+
+        try {
+            selectionId = stoi(buff);
+            switch(selectionId){
+                case Menu::Toggle:
+
+                break;;
+                case Menu::Edit:
+
+                break;;
+                case Menu::Remove:
+
+                break;;
+                case Menu::Back:
+
+                break;;
+            }
+
+        } catch (invalid_argument) {
+            cout << "Nieprawidłowy wybór." << endl;
+        }
+            cout << "Task o podanym ID nie istnieje " << selectionId << endl;
+    }
+}
