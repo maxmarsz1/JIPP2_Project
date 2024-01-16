@@ -1,9 +1,14 @@
 #include "Task.h"
 #include <string>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 
+Task::~Task(){
+    cout << "Usuwam task: " << text << endl;
+}
 
 const string Task::getText(){
     return text;
@@ -17,6 +22,35 @@ bool Task::isDone(){
     return done;
 }
 
-void Task::setDone(bool done){
-    this->done = done;
+void Task::toggleDone(){
+    done = !done;
+}
+
+void Task::print(){
+    cout << text << " | zrobiony: "<< (done ? "tak" : "nie") << endl;
+}
+
+void Task::save(ofstream &out){
+    int textSize = text.size();
+
+    char* temp = reinterpret_cast<char*>(&textSize);
+    out.write(temp, sizeof(textSize));
+    out.write(text.data(), textSize);
+    out.write(reinterpret_cast<char*>(&done), sizeof(done));
+}
+
+ostream &operator<<(ostream &lhs, const Task *rhs){
+    return lhs << rhs->text << " | zrobiony: "<< (rhs->done ? "tak" : "nie");
+}
+
+ofstream &operator<<(ofstream &out, Task *task){
+    string text = task->getText();
+    int textSize = text.size();
+    bool done = task->isDone();
+
+    char* temp = reinterpret_cast<char*>(&textSize);
+    out.write(temp, sizeof(textSize));
+    out.write(text.data(), textSize);
+    out.write(reinterpret_cast<char*>(&done), sizeof(done));
+    return out;
 }

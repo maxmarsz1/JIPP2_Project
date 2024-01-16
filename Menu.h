@@ -4,14 +4,17 @@
 
 class Menu{
     TaskList taskList; 
+    int selectedTaskId = -1;
 public:
     Menu();
     void menu();
-    void menuTasks();
+    void menuTask();
 
     enum Option {
         Display = 1,
         Add,
+        Save,
+        Load,
         Exit = 0
     };
 

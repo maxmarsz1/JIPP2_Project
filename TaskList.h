@@ -7,11 +7,16 @@ using namespace std;
 
 class TaskList{
     map<int, Task*> tasks;
-    int lastId = 0;
 
 public:
+    int lastId = 0;
+    ~TaskList();
     void addTask(string text);
     void removeTask(int id);
     Task* getTask(int id);
     map<int, Task*> getTasks();
+    void save(string filename);
+    void save(ofstream &out);
+    void load(string filename);
+    void load(ifstream &in);
 };

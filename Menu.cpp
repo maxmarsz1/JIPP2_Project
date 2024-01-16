@@ -3,6 +3,7 @@
 #include <limits>
 #include <stdio.h>
 #include <string>
+#include <fstream>
 #include "Task.h"
 #include "TaskList.h"
 
@@ -12,58 +13,108 @@ Menu::Menu(){
     cout << "---------------------------------" << endl;
     cout << "ToDoList by Maksymilian Marszałek" << endl;
     cout << "---------------------------------" << endl;
-    int in;
-    string taskText;
 
-    while(1){
-        Menu::menu();
-        
-    }
+    Menu::menu();
 }
 
 
 void Menu::menu(){
     while(1){
+        string taskText, menuBuff, filename;
+        ofstream out;
+        int in;
         cout<<"1.Wypisz todo" << endl;
         cout<<"2.Dodaj todo" << endl;
+        cout<<"3.Zapisz todos" << endl;
+        cout<<"4.Wczytaj todos" << endl;
         cout<<"0.Zakończ" << endl;
         cout << ": ";
-        if (cin >> in){
+        if (getline(cin>>ws, menuBuff)){
+            try {
+                in = stoi(menuBuff);
+            } catch (invalid_argument) {
+                exit(-1);
+            }
             switch(in){
                 case Menu::Display:
-                while(1){
-                    cout << "--------------------------" << endl;
-                    cout << "Tasks:" << endl;
-                    for(auto&[key, value]: taskList.getTasks()){
-                        cout << key << "." << value->getText() << " | zrobiony: "<< (value->isDone() ? "tak" : "nie")<< endl;
-                    }
-                    cout << "--------------------------" << endl;
-                    
+                cout << "--------------------------" << endl;
+                cout << "Tasks:" << endl;
+                for(auto&[key, value]: taskList.getTasks()){
+                    cout << key << "." << value << endl;
                 }
-                break;;
+                cout << "--------------------------" << endl;
+                if(taskList.lastId != 0){
+                    Menu::menuTask();
+                } else {
+                    continue;
+                }
+                continue;
 
                 case Menu::Add:
                 cout << "Nazwa todo: ";
                 getline(cin>>ws, taskText);
                 taskList.addTask(taskText);
-                break;;
+                continue;
+
+                case Menu::Save:
+                cout << "Nazwa pliku: ";
+                getline(cin>>ws, filename);
+                try{
+                    taskList.save(filename);
+                }
+                catch (...){
+                    cout << "Todos nie mogły zostać zapisane" << endl;
+                }
+                continue;
+
+                case Menu::Load:
+                cout << "Nazwa pliku: ";
+                getline(cin>>ws, filename);
+                try{
+                    taskList.load(filename);
+                }
+                catch (...){
+                    cout << "Todos nie mogły zostać wczytane" << endl;
+                }
+                continue;
 
                 case Menu::Exit:
-                exit(0);
+                break;
 
                 default:
                 cout<<"Nieprawidłowy wybór"<< endl;
+                continue;
             }
+            break;
         }
     }
 }
 
-void Menu::menuTasks(){
+void Menu::menuTask(){
+    string buff;
+    int selectionId;
+    cout<< "Wybierz task: ";
+    getline(cin>>ws ,buff);
+    try{
+        selectionId = stoi(buff);
+        taskList.getTask(selectionId);
+        selectedTaskId = selectionId;
+    } catch (invalid_argument) {
+        cout << "Nieprawidłowy wybór: " << buff << endl;
+        return;
+    } catch (out_of_range) {
+        cout << "Task o podanym ID nieistnieje :( " << selectionId << endl;
+        return;
+    }
     while(1){
+        Task* task = taskList.getTask(selectedTaskId);
+        cout<<"Wybrane todo: id(" << selectedTaskId << ")" << endl;
+        cout<< task << endl;
         cout<<"1.Przelacz todo" << endl;
         cout<<"2.Edytuj todo" << endl;
         cout<<"3.Usun todo" << endl;
         cout<<"4.Powrot" << endl;
+        cout << ": ";
 
         string buff;
         int selectionId;
@@ -73,22 +124,26 @@ void Menu::menuTasks(){
             selectionId = stoi(buff);
             switch(selectionId){
                 case Menu::Toggle:
+                task->toggleDone();
+                continue;
 
-                break;;
                 case Menu::Edit:
+                cout << "Wpisz nowy tekst todo: ";
+                getline(cin>>ws, buff);
+                task->setText(buff);
+                continue;
 
-                break;;
                 case Menu::Remove:
+                taskList.removeTask(selectedTaskId);
+                break;
 
-                break;;
                 case Menu::Back:
-
-                break;;
+                break;
             }
-
-        } catch (invalid_argument) {
+        } catch (...) {
             cout << "Nieprawidłowy wybór." << endl;
         }
-            cout << "Task o podanym ID nie istnieje " << selectionId << endl;
+        selectedTaskId = -1;
+        break;
     }
 }
