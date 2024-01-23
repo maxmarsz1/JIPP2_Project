@@ -1,5 +1,4 @@
 #include "Task.h"
-#include <corecrt.h>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -9,6 +8,7 @@ using namespace std;
 
 Task::~Task(){
     cout << "Usuwam task: " << text << endl;
+    delete datetime;
 }
 
 const string Task::getText(){
@@ -28,12 +28,13 @@ void Task::toggleDone(){
 }
 
 void Task::print(){
-    cout << text << " | zrobiony: "<< (done ? "tak" : "nie") << endl;
+    cout << text << " | zrobiony: "<< (done ? "tak" : "nie") << " | ";
+    datetime->print();
 }
 
 void Task::save(ofstream &out){
     int textSize = text.size();
-    time_t epoch = datetime.getEpoch();
+    time_t epoch = datetime->getEpoch();
     char* temp = reinterpret_cast<char*>(&textSize);
     out.write(temp, sizeof(textSize));
     out.write(text.data(), textSize);
@@ -50,7 +51,7 @@ ofstream &operator<<(ofstream &out, Task *task){
     string text = task->getText();
     int textSize = text.size();
     bool done = task->isDone();
-    time_t epoch = task->datetime.getEpoch();
+    time_t epoch = task->datetime->getEpoch();
 
     char* temp = reinterpret_cast<char*>(&textSize);
     out.write(temp, sizeof(textSize));

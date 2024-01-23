@@ -19,6 +19,10 @@ void TaskList::addTask(string text){
     tasks[++lastId] = new Task(text);
 }
 
+void TaskList::addTask(Task* task){
+    tasks[++lastId] = task;
+}
+
 Task* TaskList::getTask(int id){
     return tasks.at(id);
 }
@@ -53,7 +57,6 @@ void TaskList::save(ofstream &out){
     out.write(temp, sizeof(int));
     for(i=1;i<=lastId;i++){
         Task* task = tasks[i];
-        // task->save(out);
         out << task;
     }
 }
@@ -84,7 +87,7 @@ void TaskList::load(ifstream &in){
 
         in.read(buff, sizeof(time_t));
         time_t epoch = *reinterpret_cast<time_t*>(buff);
-        tasks[i]->datetime.setDatetime(epoch);
+        tasks[i]->datetime->setDatetime(epoch + 60 * 60);
 
         in.read(buff, sizeof(bool));
         done = *reinterpret_cast<bool*>(buff);

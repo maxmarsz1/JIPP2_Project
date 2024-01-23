@@ -3,6 +3,7 @@
 #include "Time.h"
 #include <iostream>
 #include <time.h>
+#include <ctime>
 #include "Exceptions.h"
 
 using namespace std;
@@ -20,17 +21,20 @@ public:
     }
 
     void setDatetime(T epoch){
-        if(epoch < time(0)){
-            throw PastDate();
-        }
-
-        struct tm dt;
-        localtime_s(&dt, &epoch);
-        hour = dt.tm_hour;
-        minute = dt.tm_min;
-        day = dt.tm_mday;
-        month = dt.tm_mon + 1;
-        year = dt.tm_year + 1900;
+        tm *dt = gmtime(&epoch);
+        hour = dt->tm_hour;
+        minute = dt->tm_min;
+        day = dt->tm_mday;
+        month = dt->tm_mon + 1;
+        year = dt->tm_year + 1900;
+        // tm dt;
+        // localtime_s(&dt, &epoch);
+        // hour = dt.tm_hour;
+        // minute = dt.tm_min;
+        // day = dt.tm_mday;
+        // month = dt.tm_mon + 1;
+        // year = dt.tm_year + 1900;
+        // delete dt;
     }
 
     void setDefault(){
@@ -39,13 +43,12 @@ public:
     }
 
     time_t getEpoch(){
-        struct tm dt;
+        struct tm dt = tm();
         dt.tm_hour = hour;
         dt.tm_min = minute;
         dt.tm_mday = day;
         dt.tm_mon = month - 1;
         dt.tm_year = year - 1900;
-
         return mktime(&dt);
     }
 
@@ -53,5 +56,9 @@ public:
         Time::print();
         cout << " ";
         Date::print();
+    }
+
+    bool isPast(){
+        return getEpoch() < time(0);
     }
 };

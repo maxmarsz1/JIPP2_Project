@@ -4,6 +4,10 @@
 
 using namespace std;
 
-const char* PastDate::what(){
-    return "Provided date is past";
+const char* InvalidDateFormat::what(){
+    return "Provided date is invalid";
+}
+
+const char* InvalidTimeFormat::what(){
+    return "Provided time is invalid";
 }

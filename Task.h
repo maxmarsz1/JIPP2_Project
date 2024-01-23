@@ -9,7 +9,7 @@ class Task{
     bool done = false;
 
 public:
-    Datetime<time_t> datetime;
+    Datetime<time_t>* datetime = new Datetime<time_t>;
 
     Task();
     Task(string text): text(text){};

@@ -1,6 +1,7 @@
 #pragma once
-#include <iostream>
+#include <string>
 
+using namespace std;
 
 class Time{
 protected:
@@ -10,9 +11,9 @@ protected:
 public:
     Time();
     Time(int hour, int minute);
+    void setTime(string time);
     void setTime(int hour, int minute);
     void setDefault();
     void print();
-    // std::string text();
 };
 

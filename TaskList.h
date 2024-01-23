@@ -12,6 +12,7 @@ public:
     int lastId = 0;
     ~TaskList();
     void addTask(string text);
+    void addTask(Task* task);
     void removeTask(int id);
     Task* getTask(int id);
     map<int, Task*> getTasks();

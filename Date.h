@@ -1,5 +1,6 @@
 #pragma once
 #include <ctime>
+#include <string>
 
 class Date{
 protected:
@@ -10,7 +11,7 @@ public:
     Date();
     Date(int day, int month, int year);
     void setDate(int day, int month, int year);
+    void setDate(std::string date);
     void setDefault();
     void print();
-
 };
