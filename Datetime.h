@@ -2,6 +2,7 @@
 #include "Date.h"
 #include "Time.h"
 #include <iostream>
+#include <time.h>
 #include "Exceptions.h"
 
 using namespace std;
@@ -45,7 +46,7 @@ public:
         dt.tm_mon = month - 1;
         dt.tm_year = year - 1900;
 
-        return mktime(dt);
+        return mktime(&dt);
     }
 
     void print(){

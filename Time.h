@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 
 class Time{
 protected:
@@ -11,6 +13,6 @@ public:
     void setTime(int hour, int minute);
     void setDefault();
     void print();
-
+    // std::string text();
 };
 

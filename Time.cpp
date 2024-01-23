@@ -1,5 +1,6 @@
 #include "Time.h"
 #include <iostream>
+#include <stdio.h>
 #include <iomanip>
 
 using namespace std;
@@ -26,3 +27,8 @@ void Time::setDefault(){
     hour = 12;
     minute = 0;
 }
+
+// string Time::text(){
+//     string text;
+//     sprintf(text, "{:02}:{:02}", hour, minute);
+// }

@@ -33,28 +33,29 @@ void Task::print(){
 
 void Task::save(ofstream &out){
     int textSize = text.size();
-
+    time_t epoch = datetime.getEpoch();
     char* temp = reinterpret_cast<char*>(&textSize);
     out.write(temp, sizeof(textSize));
     out.write(text.data(), textSize);
-    temp = reinterpret_cast<char*>(datetime.getEpoch());
+    temp = reinterpret_cast<char*>(&epoch);
     out.write(temp, sizeof(time_t));
     out.write(reinterpret_cast<char*>(&done), sizeof(done));
 }
 
 ostream &operator<<(ostream &lhs, const Task *rhs){
-    return lhs << rhs->text << " | zrobiony: "<< (rhs->done ? "tak" : "nie");
+    return lhs << rhs->text <<  " | zrobiony: "<< (rhs->done ? "tak" : "nie");
 }
 
 ofstream &operator<<(ofstream &out, Task *task){
     string text = task->getText();
     int textSize = text.size();
     bool done = task->isDone();
+    time_t epoch = task->datetime.getEpoch();
 
     char* temp = reinterpret_cast<char*>(&textSize);
     out.write(temp, sizeof(textSize));
     out.write(text.data(), textSize);
-    temp = reinterpret_cast<char*>(task->datetime.getEpoch());
+    temp = reinterpret_cast<char*>(&epoch);
     out.write(temp, sizeof(time_t));
     out.write(reinterpret_cast<char*>(&done), sizeof(done));
     return out;

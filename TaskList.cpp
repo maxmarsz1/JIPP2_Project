@@ -77,9 +77,15 @@ void TaskList::load(ifstream &in){
     for(i=1;i<=lastId;i++){
         in.read(buff, sizeof(int));
         textSize = *reinterpret_cast<int*>(buff);
+
         in.read(buff, textSize);
         string text(buff, textSize);
         tasks[i] = new Task(text);
+
+        in.read(buff, sizeof(time_t));
+        time_t epoch = *reinterpret_cast<time_t*>(buff);
+        tasks[i]->datetime.setDatetime(epoch);
+
         in.read(buff, sizeof(bool));
         done = *reinterpret_cast<bool*>(buff);
         if(done)
