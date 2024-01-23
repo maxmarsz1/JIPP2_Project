@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 #include <iomanip>
+#include <time.h>
 
 using namespace std;
 
@@ -16,9 +17,6 @@ Date::Date(int day, int month, int year){
 }
 
 void Date::setDate(int day, int month, int year){
-    time_t timeNow = time(0);
-    tm* now = localtime(&timeNow);
-    // cout << "Czas teraz: " << timeNow << endl;
     tm* date = new tm;
     date->tm_mday = day;
     date->tm_mon = month - 1;
@@ -28,18 +26,12 @@ void Date::setDate(int day, int month, int year){
     date->tm_sec = 0;
     date->tm_isdst = 1;
     time_t convertedTime; 
-    if((convertedTime = timegm(date)) == -1){
+    if((convertedTime = mktime(date)) == -1){
         perror("Blad");
         cout << "Nieprawidłowa data :(" << endl;
         setDefault();
         return;
     }
-    if(convertedTime < timeNow){
-        cout << "Data z przeszłości :(" << endl;
-        setDefault();
-        return;
-    }
-    // cout << "Czas konwertowany: " << convertedTime << endl;
 
     this->day = day;
     this->month = month;
@@ -48,7 +40,8 @@ void Date::setDate(int day, int month, int year){
 
 void Date::setDefault(){
     time_t t = time(0) + 24 * 60 * 60;
-    tm* now = localtime(&t);
+    tm* now;
+    localtime_s(now, &t);
     day = now->tm_mday;
     month = now->tm_mon + 1;
     year = now->tm_year + 1900;

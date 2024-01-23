@@ -1,13 +1,15 @@
 #pragma once
 
 class Time{
-    int hours = 12;
-    int minutes = 0;
+protected:
+    int hour;
+    int minute;
 
 public:
     Time();
-    Time(int hours, int minutes);
-    void setTime(int hours, int minutes);
+    Time(int hour, int minute);
+    void setTime(int hour, int minute);
+    void setDefault();
     void print();
 
 };

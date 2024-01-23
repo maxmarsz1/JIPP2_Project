@@ -1,8 +1,11 @@
 #include "Menu.h"
-#include "Date.h"
+#include "Datetime.h"
 
 using namespace std;
 
 int main(){
-    Menu m;
+    Datetime x;
+    x.setDatetime(time(0) + 24*60*60);
+    x.print();
+    // Menu m;
 }

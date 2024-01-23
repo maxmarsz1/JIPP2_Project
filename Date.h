@@ -2,6 +2,7 @@
 #include <ctime>
 
 class Date{
+protected:
     int day;
     int month;
     int year;

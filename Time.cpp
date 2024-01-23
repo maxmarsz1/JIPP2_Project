@@ -3,15 +3,24 @@
 
 using namespace std;
 
-Time::Time(int hours, int minutes){
-    setTime(hours, minutes);
+Time::Time(){
+    setDefault();
 }
 
-void Time::setTime(int hours, int minutes){
-    this->hours = hours < 0 || hours > 24 ? 12 : hours;
-    this->minutes = minutes < 0 || minutes > 59 ? 0 : minutes;
+Time::Time(int hour, int minute){
+    setTime(hour, minute);
+}
+
+void Time::setTime(int hour, int minute){
+    this->hour = hour < 0 || hour > 24 ? 12 : hour;
+    this->minute = minute < 0 || minute > 59 ? 0 : minute;
 }
 
 void Time::print(){
-    cout << hours << ":" << minutes;
+    cout << hour << ":" << minute;
+}
+
+void Time::setDefault(){
+    hour = 12;
+    minute = 0;
 }
