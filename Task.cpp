@@ -1,4 +1,5 @@
 #include "Task.h"
+#include <corecrt.h>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -36,6 +37,8 @@ void Task::save(ofstream &out){
     char* temp = reinterpret_cast<char*>(&textSize);
     out.write(temp, sizeof(textSize));
     out.write(text.data(), textSize);
+    temp = reinterpret_cast<char*>(datetime.getEpoch());
+    out.write(temp, sizeof(time_t));
     out.write(reinterpret_cast<char*>(&done), sizeof(done));
 }
 
@@ -51,6 +54,8 @@ ofstream &operator<<(ofstream &out, Task *task){
     char* temp = reinterpret_cast<char*>(&textSize);
     out.write(temp, sizeof(textSize));
     out.write(text.data(), textSize);
+    temp = reinterpret_cast<char*>(task->datetime.getEpoch());
+    out.write(temp, sizeof(time_t));
     out.write(reinterpret_cast<char*>(&done), sizeof(done));
     return out;
 }

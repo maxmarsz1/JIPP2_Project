@@ -1,5 +1,6 @@
 #include "Time.h"
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -17,7 +18,8 @@ void Time::setTime(int hour, int minute){
 }
 
 void Time::print(){
-    cout << hour << ":" << minute;
+	cout << setfill('0');
+    cout << setw(2) << hour << ":" << setw(2) << minute;
 }
 
 void Time::setDefault(){

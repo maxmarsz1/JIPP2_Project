@@ -40,7 +40,7 @@ void Date::setDate(int day, int month, int year){
 
 void Date::setDefault(){
     time_t t = time(0) + 24 * 60 * 60;
-    tm* now;
+    tm* now = new tm;
     localtime_s(now, &t);
     day = now->tm_mday;
     month = now->tm_mon + 1;

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Datetime.h"
 
 using namespace std;
 
@@ -8,6 +9,8 @@ class Task{
     bool done = false;
 
 public:
+    Datetime<time_t> datetime;
+
     Task();
     Task(string text): text(text){};
     ~Task();

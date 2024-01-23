@@ -9,7 +9,7 @@
 using namespace std;
 
 TaskList::~TaskList(){
-    for(lastId; lastId>=0; lastId--){
+    for(; lastId>=0; lastId--){
         delete tasks[lastId];
         tasks.erase(lastId);
     }
@@ -29,7 +29,7 @@ map<int, Task*> TaskList::getTasks(){
 
 void TaskList::removeTask(int id){
     Task* t = tasks.at(id);
-    for(id;id<lastId;id++){
+    for(;id<lastId;id++){
         tasks[id] = tasks[id+1];
     }
     tasks.erase(lastId);
